@@ -42,15 +42,23 @@
         </div>
       </li>
     </ul>
-    <form class="form-inline my-2 my-lg-0">
+    <form class="form-inline my-2 my-lg-0 mx-auto">
       <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
       <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Search</button>
     </form>
   </div>
+
+  {% block nav_btn %}{% endblock %}
 </nav>
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{message.tags}}" role="alert">
+          <h5 class="text-center">{{message}}</h5>
+        </div>
+    {% endfor %}
+{% endif %}
 
 <body>
-
 
     {% block body %}{% endblock %}
 
@@ -66,5 +74,7 @@
     integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
     crossorigin="anonymous"></script>
 </body>
+
+{% block modals %} {% endblock %}
 
 </html>
