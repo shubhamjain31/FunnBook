@@ -1,0 +1,75 @@
+{% extends "account/base.html" %}
+{% load humanize %}
+
+{% block nav_btn %}
+<!-- Button trigger modal -->
+	<button type="button" class="btn btn-warning mx-2" data-toggle="modal" data-target="#postModal">
+	  <span class="font-weight-bold">Post</span>
+	</button>
+{% endblock %}
+
+{% block body %}
+{% for post in posts %}
+
+<div class="container my-2">
+	<div class="card">
+	  <div class="card-header">
+	    {{post.user.first_name}} {{post.user.last_name}}
+	    <small>
+	    	{% if post.date|date:"YmdHi" == date_now|date:"YmdHi" %}
+                Just Now
+            {% elif post.date|date:"Ymd" == date_now|date:"Ymd" %}
+                {{ data.date|naturaltime }}
+            {% else %}
+                {{post.date|date:"M d"}} at {{post.date|date:"h:i A"}}
+            {% endif %}
+	    </small>
+	  </div>
+	  <div class="card-body">
+	    <p class="card-text">{{post.caption}}</p>
+
+	    {% if post.image %}
+	    	<img src="{{post.image.url}}" class="img-responsive" style='vertical-align: middle;max-height:200px;' alt="image">
+	    {% endif %}
+
+	    <hr size="30px">
+	    <button type="button" class="btn btn-primary mr-4">Like</button>
+	    <button type="button" class="btn btn-warning mr-4">Comment</button>
+	  	<button type="button" class="btn btn-info mr-4">Report</button>
+	  </div>
+	</div>
+</div>
+
+{% endfor %}
+{% endblock %}
+
+{% block modals %}
+
+<!-- Modal -->
+<div class="modal fade" id="postModal" tabindex="-1" role="dialog" aria-labelledby="postModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title font-weight-bold" id="postModalLabel">New Post</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body ">
+        <form method="post" action="/userpage/post/" enctype="multipart/form-data">{% csrf_token %}
+		  <label for="image">Image :</label>
+		  <input type="file" name="image" id="image" name="image">
+		  <br><br><br>
+		  <label for="caption">Captions :</label>
+		  <br>
+		  <textarea class="form-control ml-1" name="caption" id="caption" cols="55" rows="8" style="resize:none;" placeholder="Captions here..."></textarea>
+		  <div class="dropdown-divider"></div>
+		  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		  <button type="submit" class="btn btn-primary">Post</button>
+		</form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -6,7 +6,7 @@ from django.contrib import messages
 # Create your views here.
 
 def home(request):
-	return render(request, "signup.html")
+	return render(request, "account/signup.html")
 
 def signup(request):
 	if request.method == "POST":
@@ -21,7 +21,7 @@ def signup(request):
 			user_save = User.objects.create_user(first_name=fname,last_name=lname,password=password,email=email,username=username)
 			user_save.save()
 
-	return render(request, "signup.html")
+	return render(request, "account/signup.html")
 
 def user_login(request):
 	if request.method == "POST":
@@ -31,7 +31,7 @@ def user_login(request):
 		if user is not None:
 			login(request,user)
 			messages.success(request, "Logged In")
-			return HttpResponseRedirect('/account/signup/')
+			return HttpResponseRedirect('/userpage')
 		else:
 			messages.error(request, "Invalid Username and Password")
 			return HttpResponseRedirect('/account/signup/')
