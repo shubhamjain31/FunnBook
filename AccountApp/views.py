@@ -11,13 +11,16 @@ def home(request):
 def signup(request):
 	if request.method == "POST":
 		email = request.POST.get('email','')
-		fname = request.POST.get('fname','')
-		lname = request.POST.get('lname','')
+		fname = request.POST.get('fname','').capitalize()
+		lname = request.POST.get('lname','').capitalize()
 		username = request.POST.get('username','')
 		password = request.POST.get('password','')
 		Cpassword = request.POST.get('cpassword','')
 
-		if password == Cpassword:
+		if User.objects.filter(username=username):
+			messages.warning(request, "Account Already Present with Given User Name")
+			return render(request,'account/signup.html')
+		elif password == Cpassword:
 			user_save = User.objects.create_user(first_name=fname,last_name=lname,password=password,email=email,username=username)
 			user_save.save()
 

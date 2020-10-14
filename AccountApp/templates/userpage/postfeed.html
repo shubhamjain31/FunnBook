@@ -8,13 +8,20 @@
 	</button>
 {% endblock %}
 
+{% block css %}
+	#post_div{
+		width:535px;
+}
+
+{% endblock %}
+
 {% block body %}
 {% for post in posts %}
 
-<div class="container my-2">
+<div class="container my-2" id="post_div">
 	<div class="card">
 	  <div class="card-header">
-	    {{post.user.first_name}} {{post.user.last_name}}
+	    <a href="{% url 'userprofile' post.user %}">{{post.user.first_name}} {{post.user.last_name}}</a>
 	    <small>
 	    	{% if post.date|date:"YmdHi" == date_now|date:"YmdHi" %}
                 Just Now
@@ -33,8 +40,11 @@
 	    {% endif %}
 
 	    <hr size="30px">
-	    <button type="button" class="btn btn-primary mr-4">Like</button>
+	    <button type="button" class="btn btn-primary ml-4 mr-4">Like</button>
 	    <button type="button" class="btn btn-warning mr-4">Comment</button>
+	    {% if request.user == post.user %}
+	    <a href="{% url 'delpost' post.id %}"><button type="button" class="btn btn-danger mr-4">Delete</button></a>
+	    {% endif %}
 	  	<button type="button" class="btn btn-info mr-4">Report</button>
 	  </div>
 	</div>

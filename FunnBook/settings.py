@@ -125,4 +125,6 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR,'media/')
 
 MESSAGE_TAGS = {constants.ERROR:'danger',
-                constants.SUCCESS:'success'}
+                constants.SUCCESS:'success',
+                constants.WARNING:'warning',
+                constants.INFO:'info'}
