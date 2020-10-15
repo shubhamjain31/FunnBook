@@ -1,0 +1,30 @@
+{% extends "account/base.html" %}
+
+{% block css %}
+
+#jumbotron {
+    min-height: 530px;
+}
+
+{% endblock %}
+
+{% block body %}
+
+<div class="container my-4">
+	<div class="jumbotron bg-info" id="jumbotron">
+	  <marquee behavior="scroll" direction="right" scrollamount="12">
+			<h1 class="display-5 text-center text-white">Funn<span class="text-dark">Book</span></h1>
+	  </marquee>
+	  <h1 class="display-4 text-center text-white font-weight-bold">Funn<span class="text-dark">Book</span></h1>
+	  <hr class="my-4">
+	  <div class="lead text-center">
+	    <a class="btn btn-dark btn-lg" href="/account/signup/" role="button">Sign up</a>
+	    <a class="btn btn-dark btn-lg ml-3" href="#" role="button">Sign in</a>
+	  </div>
+	  <marquee behavior="scroll" scrollamount="12" class="mt-5">
+			<h1 class="display-5 text-center text-white">Funn<span class="text-dark">Book</span></h1>
+	  </marquee>
+	</div>
+</div>
+
+{% endblock %}

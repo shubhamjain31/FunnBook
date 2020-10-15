@@ -50,7 +50,7 @@
 	    {% endif %}
 	    </button>
 	    
-	    <button type="button" class="btn btn-warning mr-4">Comment</button>
+	    <a href="{% url 'comment' %}"><button type="button" class="btn btn-warning mr-4">Comment</button></a>
 	    {% if request.user == post.user %}
 	    <a href="{% url 'delpost' post.id %}"><button type="button" class="btn btn-danger mr-4 delete" id="{{post.id}}">Delete</button></a>
 	    {% endif %}

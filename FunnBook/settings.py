@@ -50,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'Middleware.middleware.LoginRequiredMiddleware',
 ]
 
 ROOT_URLCONF = 'FunnBook.urls'
@@ -128,3 +129,7 @@ MESSAGE_TAGS = {constants.ERROR:'danger',
                 constants.SUCCESS:'success',
                 constants.WARNING:'warning',
                 constants.INFO:'info'}
+
+HOME_URL = "/"
+
+EXEMPT_URLS = ["/login", "/signup"]

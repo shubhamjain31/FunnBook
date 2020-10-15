@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
-from .models import Post, Profile, Like
+from .models import Post, Profile, Like, Following
 from django.contrib import messages
 import json
 
@@ -9,7 +9,6 @@ import json
 def userHome(request):
 	posts = Post.objects.all().order_by('-pk')
 	liked_ = [i for i in posts if Like.objects.filter(post=i, user=request.user)]
-	print(liked_)
 	params = {'posts':posts,"liked_post":liked_}
 	return render(request, "userpage/postfeed.html", params)
 
@@ -52,7 +51,6 @@ def userProfile(request, username):
 
 def getPost(user):
 	allpost = Post.objects.filter(user=user)
-	print(allpost)
 	image_list = [allpost[i:i+3] for i in range(0,len(allpost),3)]
 	return image_list
 
@@ -70,5 +68,33 @@ def likePost(request):
 	resp = {
 		"liked":liked
 	}
+	response = json.dumps(resp)
+	return HttpResponse(response, content_type="application/json")
+
+def comment(request):
+	comment_ = request.GET.get('comment', '')
+	return render(request, "userpage/comments.html")
+
+def follow(request, username):
+	login_user = request.user
+	to_follow = User.objects.get(username=username)
+
+	#check if already following or not
+	following = Following.objects.filter(user = login_user, followed = to_follow)
+	is_following = True if following else False
+
+	if is_following:
+		#if already follow then unfollow the user
+	    Following.unfollow(login_user, to_follow)
+	    is_following = False
+	else:
+		#if not already follow then follow the user
+	    Following.follow(login_user, to_follow)
+	    is_following = True
+
+	resp = {
+	    "following" : is_following,
+	}
+
 	response = json.dumps(resp)
 	return HttpResponse(response, content_type="application/json")

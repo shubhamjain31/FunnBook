@@ -22,6 +22,14 @@ hr{
 	height:200px;
 	margin-bottom:30px;
 }
+
+#follow, #edit{
+    color:blue;
+}
+
+#follow:hover, #edit:hover{
+    color:white;
+}
 {% endblock %}
 
 {% block body %}
@@ -30,7 +38,9 @@ hr{
 	<div class="media">
 		<img src="{{userImg.url}}" class="align-self-start mr-3 userImage" alt="image">
 		<div class="media-body info">
-			<h4>{{user_obj.first_name}} {{user_obj.last_name}}</h4>
+			<h4>{{user_obj.first_name}} {{user_obj.last_name}}
+				<a type="button" class="btn btn-outline-primary" id="follow" role="button" href="{% url 'follow' user_obj.username %}">Follow</a>
+			</h4>
 			<p>Follower : {{follower}} <span class="ml-2">Following : {{following}}</span></p>
 			<p><b>{{bio}}</b></p>
 		</div>
@@ -47,5 +57,28 @@ hr{
 	</div>
 
 </div>
+
+{% endblock %}
+
+{% block js %}
+
+<script type="text/javascript">
+	$("#follow").click(function(e) {
+	var href = this.href;
+	e.preventDefault();
+
+	$.ajax({
+		url:href,
+		success: function(response){
+          if(response["following"]){
+            $('#follow').html("Unfollow");
+          }
+          else{
+            $('#follow').html("Follow");
+          }
+        }
+	});
+});
+</script>
 
 {% endblock %}
