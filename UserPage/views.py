@@ -7,7 +7,9 @@ import json
 # Create your views here.
 
 def userHome(request):
-	posts = Post.objects.all().order_by('-pk')
+	user = Following.objects.get(user = request.user)
+	followed_users = user.followed.all()
+	posts = Post.objects.filter(user__in = followed_users).order_by('-pk') | Post.objects.filter(user = request.user).order_by('-pk')
 	liked_ = [i for i in posts if Like.objects.filter(post=i, user=request.user)]
 	params = {'posts':posts,"liked_post":liked_}
 	return render(request, "userpage/postfeed.html", params)
@@ -41,10 +43,15 @@ def userProfile(request, username):
 		post = getPost(user)
 		bio = profile.bio
 		conn = profile.connection
-		follower = profile.follower
-		following = profile.following
 		user_img = profile.userImage
-		params = {'user_obj':user,'bio':bio,'conn':conn,'follower':follower,'following':following,'userImg':user_img,'posts':post}
+		is_following = Following.objects.filter(user=request.user,followed=user)
+
+		#create a Following objects
+		following_obj = Following.objects.get(user = user)
+		follower = following_obj.follower.count()
+		following = following_obj.followed.count()
+		print(follower,following)
+		params = {'user_obj':user,'bio':bio,'conn':conn,'follower':follower,'following':following,'userImg':user_img,'posts':post,'connection':is_following}
 	else:
 		return HttpResponse("No Such User")
 	return render(request, "userpage/userProfile.html", params)

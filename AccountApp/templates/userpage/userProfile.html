@@ -39,7 +39,11 @@ hr{
 		<img src="{{userImg.url}}" class="align-self-start mr-3 userImage" alt="image">
 		<div class="media-body info">
 			<h4>{{user_obj.first_name}} {{user_obj.last_name}}
+				{% if connection and not request.user == user_obj %}
+				<a type="button" class="btn btn-outline-primary" id="follow" role="button" href="{% url 'follow' user_obj.username %}">Unfollow</a>
+				{% elif not connection and not request.user == user_obj %}
 				<a type="button" class="btn btn-outline-primary" id="follow" role="button" href="{% url 'follow' user_obj.username %}">Follow</a>
+				{% endif %}
 			</h4>
 			<p>Follower : {{follower}} <span class="ml-2">Following : {{following}}</span></p>
 			<p><b>{{bio}}</b></p>

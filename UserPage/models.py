@@ -45,16 +45,16 @@ class Like(models.Model):
 class Following(models.Model):
     user = models.OneToOneField(User, on_delete = models.CASCADE)
     followed = models.ManyToManyField(User, related_name="followed")
-    #follower = models.ManyToManyField(User, related_name="follower")
+    follower = models.ManyToManyField(User, related_name="follower")
 
     @classmethod
     def follow(cls, user, another_account):
-        obj,create = cls.objects.get_or_create(user = user)
+        obj = cls.objects.get(user = user)
         obj.followed.add(another_account)
 
     @classmethod
     def unfollow(cls, user, another_account):
-        obj,create = cls.objects.get_or_create(user = user)
+        obj = cls.objects.get(user = user)
         obj.followed.remove(another_account)
 
     def __str__(self):
