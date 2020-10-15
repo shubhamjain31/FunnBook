@@ -1,14 +1,16 @@
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
-from .models import Post, Profile
+from .models import Post, Profile, Like
 from django.contrib import messages
+import json
 
 # Create your views here.
 
-def username(request):
+def userHome(request):
 	posts = Post.objects.all().order_by('-pk')
-
-	params = {'posts':posts}
+	liked_ = [i for i in posts if Like.objects.filter(post=i, user=request.user)]
+	print(liked_)
+	params = {'posts':posts,"liked_post":liked_}
 	return render(request, "userpage/postfeed.html", params)
 
 def post(request):
@@ -52,5 +54,21 @@ def getPost(user):
 	allpost = Post.objects.filter(user=user)
 	print(allpost)
 	image_list = [allpost[i:i+3] for i in range(0,len(allpost),3)]
-	print(image_list)
 	return image_list
+
+def likePost(request):
+	post_Id = request.GET.get('likeId','')
+	post = Post.objects.get(pk=post_Id)
+	user = request.user
+	like = Like.objects.filter(post=post,user=user)
+	liked = False
+	if like:
+		Like.dislike(post, user)
+	else:
+		liked = True
+		Like.like(post, user)
+	resp = {
+		"liked":liked
+	}
+	response = json.dumps(resp)
+	return HttpResponse(response, content_type="application/json")
