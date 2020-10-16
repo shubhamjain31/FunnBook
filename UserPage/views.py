@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from .models import Post, Profile, Like, Following
 from django.contrib import messages
 import json
+from django.views.generic import ListView
+from django.core.paginator import Paginator
 
 # Create your views here.
 
@@ -105,3 +107,16 @@ def follow(request, username):
 
 	response = json.dumps(resp)
 	return HttpResponse(response, content_type="application/json")
+
+class Search_User(ListView):
+	model = User
+	template_name = "userpage/searchuser.html"
+	paginate_by = 2
+
+	def get_queryset(self):
+		search = self.request.GET.get("search","")
+		queryset = User.objects.filter(username__icontains=search)
+		userProfile = []
+		for i in queryset:
+			userProfile.append(Profile.objects.filter(user=i.id))
+		return list(zip(queryset,userProfile))

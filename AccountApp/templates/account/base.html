@@ -43,9 +43,9 @@
         <a class="nav-link" href="{% url 'userprofile' request.user %}">{{request.user.first_name}} {{request.user.last_name}}</a>
       </li>
     </ul>
-    <form class="form-inline my-2 my-lg-0 mx-auto">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Search</button>
+    <form class="form-inline my-2 my-lg-0 mx-auto" action="/userpage/search/" method="get">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search" id="search">
+      <button class="btn btn-outline-dark my-2 my-sm-0" type="submit" id="submit">Search</button>
     </form>
   </div>
 
