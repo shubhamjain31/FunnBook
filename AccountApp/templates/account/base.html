@@ -30,18 +30,20 @@
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Dropdown
+          Account
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="/change_password">Change Password</a>
           <a class="dropdown-item" href="#">Another action</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Something else here</a>
+          <a class="dropdown-item" href="/account/logout/">Logout</a>
         </div>
       </li>
 
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'userprofile' request.user %}">{{request.user.first_name}} {{request.user.last_name}}</a>
+        {% if not request.user.is_anonymous %}
+          <a class="nav-link" href="{% url 'userprofile' request.user %}"><img src="{{user.userImage.url}}" class="img-circle rounded-circle" width="25px" height="25px" alt="profilePic"><span class="ml-1 font-weight-bold">{{request.user.first_name}} {{request.user.last_name}}</a>
+        {% endif %}
       </li>
     </ul>
     <form class="form-inline my-2 my-lg-0 mx-auto" action="/userpage/search/" method="get">

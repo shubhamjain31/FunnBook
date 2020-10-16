@@ -8,6 +8,7 @@
     <h1>No Search Results</h1>
 
     {% else %}
+    {{data}}
         {% for user,userInfo in object_list %}
         {% for uimage in userInfo %}
             <div class="card my-2">

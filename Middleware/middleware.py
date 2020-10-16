@@ -18,5 +18,5 @@ class LoginRequiredMiddleware:
         if user and url == settings.HOME_URL:
             return redirect("/userpage")
 
-        '''if not user and (url != settings.HOME_URL and url not in settings.EXEMPT_URLS):
-            return redirect(settings.HOME_URL)'''
+        if not user and (url != settings.HOME_URL and url not in settings.EXEMPT_URLS):
+            return redirect(settings.HOME_URL)
