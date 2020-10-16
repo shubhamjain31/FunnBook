@@ -3,6 +3,10 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 
+from django.views.generic import TemplateView
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
+
 # Create your views here.
 
 def home(request):
@@ -18,8 +22,10 @@ def signup(request):
 		password = request.POST.get('password','')
 		Cpassword = request.POST.get('cpassword','')
 
-		if User.objects.filter(username=username):
-			messages.warning(request, "Account Already Present with Given User Name")
+		userCheck = User.objects.filter(username=username) | User.objects.filter(email=mail)
+
+		if userCheck:
+			messages.warning(request, "Account Already Present with Given User Name or Email")
 			return render(request,'account/signup.html')
 		elif password == Cpassword:
 			user_save = User.objects.create_user(first_name=fname,last_name=lname,password=password,email=email,username=username)

@@ -22,7 +22,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('AccountApp.urls'),name='index'),
     path('account/', include('AccountApp.urls'),name='account_app'),
-    path('userpage/', include('UserPage.urls'),name='userpage_app')
+    path('userpage/', include('UserPage.urls'),name='userpage_app'),
+    path('story/', include('StoryApp.urls'),name='story_app')
 ]
 
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

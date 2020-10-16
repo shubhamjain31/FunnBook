@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'AccountApp.apps.AccountappConfig',
     'UserPage.apps.UserpageConfig',
+    'StoryApp.apps.StoryappConfig',
 ]
 
 MIDDLEWARE = [
@@ -122,6 +123,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+#Run command -> python manage.py collectstatic
+#It creates a folder and collect all static files
+STATIC_ROOT = os.path.join(BASE_DIR,'assets/')
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR,'static/')
+]
+
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR,'media/')
 

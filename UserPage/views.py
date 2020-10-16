@@ -13,7 +13,8 @@ def userHome(request):
 	followed_users = user.followed.all()
 	posts = Post.objects.filter(user__in = followed_users).order_by('-pk') | Post.objects.filter(user = request.user).order_by('-pk')
 	liked_ = [i for i in posts if Like.objects.filter(post=i, user=request.user)]
-	params = {'posts':posts,"liked_post":liked_}
+	activeUser = Profile.objects.get(user=request.user)
+	params = {'posts':posts,"liked_post":liked_,"user":activeUser}
 	return render(request, "userpage/postfeed.html", params)
 
 def post(request):
@@ -52,7 +53,6 @@ def userProfile(request, username):
 		following_obj = Following.objects.get(user = user)
 		follower = following_obj.follower.count()
 		following = following_obj.followed.count()
-		print(follower,following)
 		params = {'user_obj':user,'bio':bio,'conn':conn,'follower':follower,'following':following,'userImg':user_img,'posts':post,'connection':is_following}
 	else:
 		return HttpResponse("No Such User")
