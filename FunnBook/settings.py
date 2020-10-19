@@ -144,5 +144,6 @@ MESSAGE_TAGS = {constants.ERROR:'danger',
                 constants.INFO:'info'}
 
 HOME_URL = "/"
+ACCOUNT_URL = "/account/"
 
-EXEMPT_URLS = ["/login", "/signup"]
+EXEMPT_URLS = ["/login/", "/signup"]

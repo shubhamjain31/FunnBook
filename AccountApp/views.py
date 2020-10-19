@@ -53,6 +53,7 @@ def user_login(request):
 		else:
 			messages.error(request, "Invalid Username and Password")
 			return HttpResponseRedirect('/account/signup/')
+	return HttpResponse("Error")
 
 def user_logout(request):
 	logout(request)
